@@ -1,0 +1,2 @@
+# meta-local-qemu
+qemu
