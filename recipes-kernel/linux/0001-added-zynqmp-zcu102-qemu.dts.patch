@@ -1,12 +1,12 @@
-From 201a12b32c03bd627cc8979722c26ec6caae105a Mon Sep 17 00:00:00 2001
+From a3e59a219b6a67a36ff46ab9779006d6eb196ab8 Mon Sep 17 00:00:00 2001
 From: Name <you@example.com>
 Date: Tue, 2 Nov 2021 11:53:52 +0900
 Subject: [PATCH] added zynqmp-zcu102-qemu.dts
 
 ---
  arch/arm64/boot/dts/xilinx/Makefile           |   1 +
- .../boot/dts/xilinx/zynqmp-zcu102-qemu.dts    | 397 ++++++++++++++++++
- 2 files changed, 398 insertions(+)
+ .../boot/dts/xilinx/zynqmp-zcu102-qemu.dts    | 401 ++++++++++++++++++
+ 2 files changed, 402 insertions(+)
  create mode 100755 arch/arm64/boot/dts/xilinx/zynqmp-zcu102-qemu.dts
 
 diff --git a/arch/arm64/boot/dts/xilinx/Makefile b/arch/arm64/boot/dts/xilinx/Makefile
@@ -20,10 +20,10 @@ index 60f5443f3ef4..cdfd3e15125c 100644
 +dtb-$(CONFIG_ARCH_ZYNQMP) += zynqmp-zcu102-qemu.dtb
 diff --git a/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-qemu.dts b/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-qemu.dts
 new file mode 100755
-index 000000000000..8b8b0079038d
+index 000000000000..b37d496227dd
 --- /dev/null
 +++ b/arch/arm64/boot/dts/xilinx/zynqmp-zcu102-qemu.dts
-@@ -0,0 +1,397 @@
+@@ -0,0 +1,401 @@
 +/dts-v1/;
 +
 +/ {
@@ -208,18 +208,22 @@ index 000000000000..8b8b0079038d
 +	gpio-keys {
 +		#address-cells = <0x01>;
 +		#size-cells = <0x00>;
-+		compatible = "gpio-keys";
++		compatible = "gpio-keys-polled";
++		poll-interval = <100>;
++		autorepeat;
 +
 +		poweroff {
 +			label = "GPIO Key Poweroff";
 +			linux,code = <67>;
 +			gpios = <0x8003 0x03 0x00>;
++			default-state = "off";
 +		};
 +
 +		soft-l {
 +			label = "SOFT-L Key";
 +			linux,code = <59>;
 +			gpios = <0x8003 0x04 0x00>;
++			default-state = "off";
 +		};
 +
 +		soft-r {
