@@ -6,20 +6,18 @@ FILESEXTRAPATHS_prepend := '${THISDIR}:'
 TARGET_CC_ARCH += "${LDFLAGS}"
 SRC_URI += "file://hardkey.py \
 	file://hardkey.c \
-	file://hardkeytikinter.py "
+	file://hardkeytikinter.py \
+	file://gpio.c \
+	file://gpioset.c \
+	file://sample.wav \
+"
 
 S = "${WORKDIR}"
 
-python do_display_banner() {
-    bb.plain("***********************************************");
-    bb.plain("*                                             *");
-    bb.plain("*  Example recipe created by bitbake-layers   *");
-    bb.plain("*                                             *");
-    bb.plain("***********************************************");
-}
-
 do_compile() {
 	${CC} hardkey.c -o hardkey
+	${CC} gpio.c -o gpio
+	${CC} gpioset.c -lgpiod -o gpioset
 }
 
 
@@ -29,7 +27,13 @@ do_install() {
 	install -m 644 "${WORKDIR}/hardkey.py" "${D}/usr/local/bin"
 	install -m 644 "${WORKDIR}/hardkeytikinter.py" "${D}/usr/local/bin"
 	install -m 744 "${WORKDIR}/hardkey" "${D}/usr/local/bin"
+	install -m 744 "${WORKDIR}/gpio" "${D}/usr/local/bin"
+	install -m 744 "${WORKDIR}/gpioset" "${D}/usr/local/bin"
+	install -m 744 "${WORKDIR}/sample.wav" "${D}/usr/local/bin"
 }
+DEPENDS = " libgpiod"
+CFLAGS_append_  = " -lgpiod"
 FILES_${PN} += "/usr/local/bin"
 
-addtask display_banner before do_build
+
+
