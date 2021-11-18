@@ -8,7 +8,7 @@ from PyQt5.QtWidgets import QApplication, QWidget, QPushButton, QGridLayout, QLa
 from PyQt5.QtGui import *
 from PyQt5.QtCore import *
 
-class ExampleWidget(QWidget):
+class ControlPanelWidget(QWidget):
 
     def __init__(self):
         super().__init__()
@@ -17,27 +17,36 @@ class ExampleWidget(QWidget):
     def initUI(self):
         self.resize(250, 150)
         self.move(300, 300)
-        self.setWindowTitle('Hardware Keys')
+        self.setWindowTitle('Control Panel')
+        self.grid = QGridLayout()
+
+        names = ['Power' , 'Return', ''  , '↑', '' ,
+                 'SOFT-L', 'SOFT-R', '←' , '' , '→',
+                 'LINE'  , 'ENTER' , ''  , '↓', ''
+                ]
+
+        positions = [(y,x) for y in range(3) for x in range(5)]
+
+        for position, name in zip(positions, names):
+            if name == '':
+                    continue
+
+            button = QPushButton(name)
+            self.grid.addWidget(button, *position)
 
         # buttonの設定
         self.button = QPushButton('Poweroff')
-        self.label = QLabel('connected')
-
-        # buttonのclickでF9送信
-        self.button.clicked.connect(self.pushButtionClicked)
+        self.button.clicked.connect(self.pushButtonClicked)
 
         # レイアウト配置
-        self.grid = QGridLayout()
         self.grid.addWidget(self.button, 0, 0, 1, 1)
-        self.grid.addWidget(self.label, 1, 0, 1, 2)
         self.setLayout(self.grid)
 
         # 表示
         self.show()
 
-    def pushButtionClicked(self):
-        '''Push Button が押されると呼ばれる。F9 キーを押す
-        '''
+    def pushButtonClicked(self): 
+
         self.p = QProcess(self)
         self.p.finished.connect(self.process_finished)
         #self.p.start(
@@ -54,6 +63,6 @@ class ExampleWidget(QWidget):
 if __name__ == '__main__':
 
     app = QApplication(sys.argv)
-    ew = ExampleWidget()    
+    ew = ControlPanelWidget()    
     sys.exit(app.exec_())
 
