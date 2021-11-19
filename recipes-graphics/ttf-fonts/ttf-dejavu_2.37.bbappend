@@ -16,3 +16,10 @@ FILES_${PN}-sans-condensed  = "${libdir}/fonts/DejaVuSansCondensed*.ttf"
 FILES_${PN}-serif           = "${libdir}/fonts/DejaVuSerif.ttf ${libdir}/fonts/DejaVuSerif-*.ttf"
 FILES_${PN}-serif-condensed = "${libdir}/fonts/DejaVuSerifCondensed*.ttf"
 FILES_${PN}-mathtexgyre     = "${libdir}/fonts/DejaVuMathTeXGyre.ttf"
+
+# fonts
+IMAGE_INSTALL_append = " \
+             ttf-dejavu-common \
+             ttf-dejavu-sans \
+             ttf-dejavu-serif \
+"

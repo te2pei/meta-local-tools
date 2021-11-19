@@ -3,24 +3,35 @@
 #include <unistd.h>
 #include <linux/input.h>
 #include <string.h>
+#include <linux/types.h>
+#include <linux/input-event-codes.h>
 #include <sys/time.h>
 
-void write_key_event(int code, int value, int fd)
+enum key_value {
+    RELEASE = 0,
+    PUSH    = 1,
+    REPEAT  = 2,
+
+};
+
+static void write_key_event(__u16 code, __u16 value)
 {
-    struct input_event key_event;
+    struct input_event key_event = {0};
   
     gettimeofday(&key_event.time, NULL);
     key_event.type  = EV_KEY;
     key_event.code  = code;
     key_event.value = value;
-    write(fd, &key_event, sizeof(key_event));
+    write(1, &key_event, sizeof(key_event));
 }
 
 int main(int argc, char *argv[])
 {
-    int keycode = KEY_WIMAX;
+    __u16 keycode = KEY_WIMAX;
 
-    if (argc < 2) return EXIT_FAILURE;
+    printf("keycode=%s value=%s\n", argv[1], argv[2]);
+
+    if (argc < 3) return EXIT_FAILURE;
 
     if ( strcmp(argv[1], "KEY_F9") == 0 )
         keycode = KEY_F9;
@@ -43,8 +54,7 @@ int main(int argc, char *argv[])
     else
         return EXIT_FAILURE;
 
-    write_key_event(keycode, 1, 1);
-    write_key_event(keycode, 0, 1);
+    write_key_event(keycode, PUSH);
 
     exit(EXIT_SUCCESS);
 }
