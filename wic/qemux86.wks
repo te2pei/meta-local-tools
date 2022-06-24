@@ -1,0 +1,11 @@
+#part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+#part / --source rootfs --use-uuid --fstype=ext4 --label platform --align 1024
+
+#part /boot --source bootimg-pcbios --ondisk sda --label boot --active --align 1024
+#part / --source rootfs --ondisk sda --fstype=ext4 --label platform --align 1024 --use-uuid
+#part /data --fixed-size 100M --ondisk sda --fstype=ext4 --label data --align 4096
+
+part /boot --source bootimg-partition --ondisk vda --fstype=vfat --label boot --active --align 4096 --size 100
+part / --source rootfs --ondisk vda --fstype=ext4 --label rootfs --align 4096 --use-uuid
+part /data  --ondisk vda --fstype=ext4 --label data --align 4096 --fixed-size 1G
+
