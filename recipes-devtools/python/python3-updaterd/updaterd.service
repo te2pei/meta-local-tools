@@ -1,0 +1,12 @@
+[Unit]
+Description = packman daemon
+
+[Service]
+ExecStart = /usr/lib/python3.9/site-packages/updaterd/updaterd.py
+Restart = always
+Type = fork
+
+[Install]
+WantedBy = multi-user.target
+
+
